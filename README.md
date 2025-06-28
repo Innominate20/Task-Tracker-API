@@ -46,7 +46,7 @@ You can use this URL to load the API definition into an online Swagger UI or any
 ## 🔐 How Authentication Works
 
 This application uses **JWT (JSON Web Token)** based authentication to secure API endpoints:
-
+ 
 - Users log in via the `/api/v1/auth/**` endpoints and receive a JWT token.
 - The token must be included in the `Authorization` header of subsequent API requests as:  
   `Authorization: Bearer <token>`
@@ -58,14 +58,6 @@ This application uses **JWT (JSON Web Token)** based authentication to secure AP
   - **Admin**: Full access to all resources
   - **Manager**: Can create and assign tasks, manage projects and notes
   - **User**: Can view and update only their own tasks
-
-
-## Postman Collection
-
-You can import the API requests using the Postman collection below:
-
-[Download Postman Collection](postman/my-api-collection.json)
-
 
 
 ## 🚀 How to Run the Application
@@ -83,7 +75,59 @@ Follow these steps to get the application up and running locally:
    DB_NAME=taskdb DB_USER=admin DB_PASSWORD=secret docker compose up
 
 
+## 🛠 Initial Admin Setup (Manual Insertion via Docker PostgreSQL)
 
+### Why This Is Required
+
+This application uses **JPA inheritance** with a base `User` class and subclasses like `Admin`, `Manager`, and `User`.
+
+Because of this:
+
+- All user data is stored in a single `user` table.
+- JPA automatically adds a special column (`dtype`) to distinguish between different user types.
+- **You must manually create the first Admin user** in the database because no user exists initially.
+- **Only Admins** can register other Admins via the API, so at least one must exist (It should be created manually)
+
+1. - `After running the application check the postgres container name :`
+   ```bash
+   docker ps
+
+
+2. - `Next connect to the continaner's shell using the following command :`
+   ```bash
+   docker exec -it <container_name> psql -U <username> -d <db_name>
+
+3. - `Sql script example for creating admin`
+   ```bash
+   INSERT INTO user (
+       id,
+       dtype,
+       email,
+       password,
+       role,
+       create_date,
+       update_date
+   ) VALUES (
+       DEFAULT,
+       'Admin',
+       'admin@example.com',
+       '$2a$10$wH7qQKjHcLw6sP1s8Phu9uQyyj5uZHEZSvT5YyldcsLxkxkHd5KnC',
+       'ADMIN',
+       now(),
+       now()
+   );
+
+
+4. - `Exit the shell`
+   ```bash 
+   \q
+## Postman Collection
+
+You can import the API requests using the Postman collection below:
+
+[Download Postman Collection](postman/my-api-collection.json)
+
+ 
 
 ## API Endpoints 📍
 
