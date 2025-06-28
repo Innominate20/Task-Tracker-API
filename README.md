@@ -75,7 +75,7 @@ Follow these steps to get the application up and running locally:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-username/Task-Tracker-API.git
+   git clone https://github.com/Innominate20/Task-Tracker-API.git
    cd Task-Tracker-API
 
 2. **Run application (example of terminal command)**
