@@ -125,7 +125,7 @@ Because of this:
 
 You can import the API requests using the Postman collection below:
 
-[Download Postman Collection](postman/my-api-collection.json)
+[Download Postman Collection](postman/Api-calls.postman_collection.json)
 
  
 
